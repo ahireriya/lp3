@@ -48,7 +48,67 @@ if __name__ == "__main__":
 
 
 
+def is_safe(board, row, col, n):
+    # Check the row on the left side
+    for i in range(col):
+        if board[row][i] == 1:
+            return False
 
+    # Check upper diagonal on the left side
+    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
+        if board[i][j] == 1:
+            return False
+
+    # Check lower diagonal on the left side
+    for i, j in zip(range(row, n), range(col, -1, -1)):
+        if board[i][j] == 1:
+            return False
+
+    return True
+
+def solve_nqueens(board, col, n):
+    # Base case: If all queens are placed, return True
+    if col >= n:
+        return True
+
+    for i in range(n):
+        if is_safe(board, i, col, n):
+            board[i][col] = 1  # Place queen
+
+            if solve_nqueens(board, col + 1, n):
+                return True
+
+            board[i][col] = 0  # Backtrack
+
+    return False
+
+def print_board(board):
+    for row in board:
+        print(" ".join("Q" if col == 1 else "." for col in row))
+    print()
+
+def nqueens(n):
+    board = [[0 for _ in range(n)] for _ in range(n)]
+    if solve_nqueens(board, 0, n):
+        print_board(board)
+    else:
+        print("No solution exists")
+"""
+# Example usage
+n = 4
+nqueens(n)
+Explanation
+is_safe: Checks if placing a queen at (row, col) would result in a conflict. It verifies:
+The row on the left side.
+The upper-left diagonal.
+The lower-left diagonal.
+solve_nqueens: Tries to place queens column by column and backtracks if necessary.
+nqueens: Initializes the board and starts solving the problem, printing the solution if one exists.
+This will output one valid solution for an 
+𝑛
+×
+𝑛
+n×n board if it exists."""
 
 
 
